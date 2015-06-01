@@ -1,0 +1,1 @@
+CREATE TABLE user ('name' varchar(20), 'password' varchar(20));

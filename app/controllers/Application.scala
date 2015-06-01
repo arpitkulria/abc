@@ -4,12 +4,14 @@ package controllers
 import models.UserForm
 import play.api.Play
 import play.api.data.Form
-import play.api.mvc._
-import play.api.data.Forms._
 import play.api.db.slick.{HasDatabaseConfig, DatabaseConfigProvider}
 import models.tableUserT
 import slick.driver.JdbcProfile
+import play.api.data.Forms._
+import play.api.mvc._
 
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 
 class Application extends Controller with tableUserT with HasDatabaseConfig[JdbcProfile] {
@@ -29,7 +31,13 @@ class Application extends Controller with tableUserT with HasDatabaseConfig[Jdbc
     )
 
     def insert = Action { implicit rs =>
-      val resultingUsers = dbConfig.db.run(users.filter(_.name === "abc").result)
-      Ok(views.html.index("" + resultingUsers))
+      val usr = userF.bindFromRequest.get
+      val resultingUsers = Await.result(dbConfig.db.run(users.forceInsert(usr)), 10 seconds)
+      Ok(" Insert - - - " + resultingUsers)
     }
+
+  def show = Action{ implicit rs =>
+    val resultingUsers = Await.result(dbConfig.db.run(users.result), 10 seconds)
+    Ok(" Show - - - " + resultingUsers)
+  }
   }
