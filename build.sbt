@@ -14,7 +14,11 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.nulab-inc" %% "play2-oauth2-provider" % "0.15.0"
+  "com.nulab-inc" %% "play2-oauth2-provider" % "0.15.0",
+  "com.typesafe.play" %% "play-slick" % "1.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0",
+  "com.typesafe.slick" 	%% 	"slick" 						% "3.0.0",
+  "com.h2database" % "h2" % "1.4.187"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

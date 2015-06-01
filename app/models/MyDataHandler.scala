@@ -2,14 +2,13 @@ package models
 
 import java.util.Date
 
-import org.apache.http.auth.AUTH
-
-import scala.concurrent.Future
+import play.api.db.slick.HasDatabaseConfig
+import slick.driver.JdbcProfile
 import scalaoauth2.provider
 import scalaoauth2.provider._
 import scala.concurrent.ExecutionContext.Implicits.global
-
-//import scalaoauth2.provider.{AccessToken, ClientCredential, DataHandler}
+import scalaoauth2.provider.{AccessToken, ClientCredential, DataHandler}
+import scala.concurrent.Future
 
 /**
  * Created by knoldus on 29/5/15.
@@ -44,11 +43,20 @@ class MyDataHandler extends DataHandler[User] {
    def getStoredAccessToken(authInfo: provider.AuthInfo[User]): Future[Option[AccessToken]] = Future(Some(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date)))
 }
 
+case class UserForm(userName: String, password: String)
 
-/*
-case class AuthInfo[User](
-                           user: User,
-                           clientId: Option[String],
-                           scope: Option[String],
-                           redirectUri: Option[String]
-                           )*/
+
+trait  tableUserT { self: HasDatabaseConfig[JdbcProfile] =>
+
+  import driver.api._
+
+  class UserTable(tag: Tag) extends Table[UserForm](tag, "user") {
+
+    def name = column[String]("name", O.PrimaryKey)
+
+    def color = column[String]("color", O.NotNull)
+
+    def * = (name, color) <>(UserForm.tupled, UserForm.unapply _)
+  }
+
+}

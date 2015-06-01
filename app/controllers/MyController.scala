@@ -22,14 +22,14 @@ object MyController extends Controller with OAuth2Provider {
   }
 }
 
-//
-//
-//object MyController1 extends Controller {
-//
-//  import scalaoauth2.provider.OAuth2ProviderActionBuilders._
-//
-//  def list = AuthorizedAction(new MyDataHandler()) { request =>
-//    val user = request.authInfo.user // User is defined on your system
-//    Ok(" in mycontroller" + user)
-//  }
-//}
+
+
+object MyController1 extends Controller {
+
+  import scalaoauth2.provider.OAuth2ProviderActionBuilders._
+
+  def list = AuthorizedAction(new MyDataHandler()) { request =>
+    val user = request.authInfo.user // User is defined on your system
+    Ok(" in mycontroller" + user)
+  }
+}

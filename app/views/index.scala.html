@@ -1,7 +1,11 @@
 @(message: String)
 
 @main("Welcome to Play") {
-
-@play20.welcome(message)
+<h1> user name and password</h1>
+<form action="/insert" method="POST">
+    <input name="userName" type="text" placeholder="User Name"/>
+    <input name="password" type="password" placeholder="password"/>
+    <input type="submit" value="Submit"/>
+</form>
 
 }
