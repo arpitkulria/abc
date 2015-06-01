@@ -4,7 +4,6 @@
 
 # Home page
 GET     /                           controllers.Application.index
-#POST    /access_token               controllers.OAuth2Controller.accessToken
 
 POST    /oauth2/access_token                    controllers.OAuth2Controller.accessToken
 

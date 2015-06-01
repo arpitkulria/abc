@@ -2,6 +2,8 @@ package models
 
 import java.util.Date
 
+import org.apache.http.auth.AUTH
+
 import scala.concurrent.Future
 import scalaoauth2.provider
 import scalaoauth2.provider._
@@ -17,40 +19,36 @@ case class User(id: Long, name: String, hashedPassword: String)
 class MyDataHandler extends DataHandler[User] {
 
   val userObj = User(12.toLong, "", "")
+  val oauthUser: AuthInfo[User] = AuthInfo(userObj,Some(""),Some(""),Some(""))
 
-  override  def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = Future(true)
+  def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = Future(true)
 
-  override def findUser(username: String, password: String): Future[Option[User]] = Future(None)
+  def findUser(username: String, password: String): Future[Option[User]] = Future(None)
 
-//  def createAccessToken(authInfo: AuthInfo[User]): Future[AccessToken] = ???
+  def  findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = Future(None)
 
-//  def getStoredAccessToken(authInfo: AuthInfo[User]): Future[Option[AccessToken]] = ???
+  def findAuthInfoByRefreshToken(refreshToken: String): Future[Option[AuthInfo[User]]] = Future(None)
 
-//  def refreshAccessToken(authInfo: AuthInfo[User], refreshToken: String): Future[AccessToken] = ???
+  def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = Future(None)
 
-  override def  findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = Future(None)
+  def deleteAuthCode(code: String): Future[Unit] = Future(Unit)
 
-  override  def findAuthInfoByRefreshToken(refreshToken: String): Future[Option[AuthInfo[User]]] = Future(None)
+  def findAccessToken(token: String): Future[Option[AccessToken]] = Future(Some(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date)))
 
-  override def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = Future(None)
+  def findAuthInfoByAccessToken(accessToken: AccessToken): Future[Option[AuthInfo[User]]] = Future(None)
 
-  override def deleteAuthCode(code: String): Future[Unit] = Future(Unit)
+  def createAccessToken(authInfo: provider.AuthInfo[User]): Future[AccessToken] = Future(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date))
 
-  override def findAccessToken(token: String): Future[Option[AccessToken]] = Future(Some(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date)))
+  def refreshAccessToken(authInfo: provider.AuthInfo[User], refreshToken: String): Future[AccessToken] = Future(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date))
 
-  override  def findAuthInfoByAccessToken(accessToken: AccessToken): Future[Option[AuthInfo[User]]] = Future(None)
-
-  override def createAccessToken(authInfo: provider.AuthInfo[User]): Future[AccessToken] = Future(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date))
-
-  override def refreshAccessToken(authInfo: provider.AuthInfo[User], refreshToken: String): Future[AccessToken] = Future(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date))
-
-  override  def getStoredAccessToken(authInfo: provider.AuthInfo[User]): Future[Option[AccessToken]] = Future(Some(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date)))
+   def getStoredAccessToken(authInfo: provider.AuthInfo[User]): Future[Option[AccessToken]] = Future(Some(AccessToken("",Some(""),Some(""),Some(12.toLong),new Date)))
 }
 
 
+/*
 case class AuthInfo[User](
                            user: User,
                            clientId: Option[String],
                            scope: Option[String],
                            redirectUri: Option[String]
-                           )
+                           )*/
